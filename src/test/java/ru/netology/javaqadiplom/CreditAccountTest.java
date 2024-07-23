@@ -17,6 +17,7 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(3_000, account.getBalance());
     }
+
     //неотрицательный баланс, ставка и лимит.
     // Должен быть отдельный класс для исключения IllegalArgumentException ?
     // проходит только первый тест на ставку
@@ -43,9 +44,19 @@ public class CreditAccountTest {
 
     //-------Test PAY-------
 
+    //после списания остаётся положительный баланс
+    @Test
+    public void successfulPaymentShouldBeCompletedAndBalanceRemainsPositive() {
+        CreditAccount account = new CreditAccount(80_000, 13_000, 12);
+
+        account.pay(70_000);
+
+        Assertions.assertEquals(10_000, account.getBalance());
+    }
+
     //сняли все деньги, в долг не ушли
     @Test
-    public void successfulPaymentShouldBeCompleted() {
+    public void successfulPaymentShouldBeCompletedAndBalanceIsZero() {
         CreditAccount account = new CreditAccount(800, 13_000, 12);
 
         account.pay(800);
@@ -53,34 +64,9 @@ public class CreditAccountTest {
         Assertions.assertEquals(0, account.getBalance());
     }
 
-    // возвращает true при снятии не больше кредитного лимита
-    @Test
-    public void returnTrueIfSuccessfulPayment() {
-        CreditAccount account = new CreditAccount(400, 10, 10);
-
-        Assertions.assertTrue(account.pay(409));
-    }
-
-    // !!можно!! протратить больше кредитного лимита
-    @Test
-    public void balanceDoesNotChangeWhenPayingMoreThanCreditLimit() {
-        CreditAccount account = new CreditAccount(80, 500, 13);
-
-        account.pay(581);
-
-        Assertions.assertEquals(80, account.getBalance());
-    }
-
-    // возвращает false при попытке снять больше лимита
-    @Test
-    public void returnsFalseIfPaymentExceedsCreditLimit() {
-        CreditAccount account = new CreditAccount(100, 500, 13);
-
-        Assertions.assertFalse(account.pay(601));
-    }
-
     // !!неправильно!! считает задолжность (в балансе отражается платёж, но со знаком -
     // это будет работать только при нулевом балансе)
+    // снимаем меньше кредитного лимита
     @Test
     public void paymentDoesNotExceedCreditLimit() {
         CreditAccount account = new CreditAccount(5, 50, 5);
@@ -99,6 +85,50 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-100, account.getBalance());
     }
+
+    // !!можно!! протратить больше кредитного лимита
+    @Test
+    public void balanceDoesNotChangeWhenPayingMoreThanCreditLimit() {
+        CreditAccount account = new CreditAccount(80, 500, 13);
+
+        account.pay(581);
+
+        Assertions.assertEquals(80, account.getBalance());
+    }
+
+    // проверки на true и false
+    //после списания остаётся положительный баланс, возвращает TRUE
+    @Test
+    public void returnTrueIfBalanceRemainsPositive() {
+        CreditAccount account = new CreditAccount(80_000, 13_000, 12);
+
+        Assertions.assertTrue(account.pay(409));
+    }
+
+    //сняли все деньги, в долг не ушли, возвращает TRUE
+    @Test
+    public void returnTrueIfBalanceIsZero() {
+        CreditAccount account = new CreditAccount(800, 13_000, 12);
+
+        Assertions.assertTrue(account.pay(800));
+    }
+
+    // возвращает true при снятии не больше кредитного лимита
+    @Test
+    public void returnTrueIfSuccessfulPayment() {
+        CreditAccount account = new CreditAccount(400, 10, 10);
+
+        Assertions.assertTrue(account.pay(409));
+    }
+
+    // возвращает false при попытке снять больше лимита
+    @Test
+    public void returnsFalseIfPaymentExceedsCreditLimit() {
+        CreditAccount account = new CreditAccount(100, 500, 13);
+
+        Assertions.assertFalse(account.pay(601));
+    }
+
 
     // если достигаем кредитного лимита, то возвращается false ,
     // как будто платёж не прошёл, хотя баланс меняется !!!!!!!
