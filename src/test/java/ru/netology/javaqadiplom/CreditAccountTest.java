@@ -74,11 +74,11 @@ public class CreditAccountTest {
     //после списания остаётся положительный баланс
     @Test
     public void successfulPaymentShouldBeCompletedAndBalanceRemainsPositive() {
-        CreditAccount account = new CreditAccount(80_000, 13_000, 12);
+        CreditAccount account = new CreditAccount(80, 13_000, 12);
 
-        account.pay(70_000);
+        account.pay(79);
 
-        Assertions.assertEquals(10_000, account.getBalance());
+        Assertions.assertEquals(1, account.getBalance());
     }
 
     //сняли все деньги, в долг не ушли
