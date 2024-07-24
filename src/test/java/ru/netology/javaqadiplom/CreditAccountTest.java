@@ -3,6 +3,8 @@ package ru.netology.javaqadiplom;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 public class CreditAccountTest {
 
     @Test
@@ -20,7 +22,7 @@ public class CreditAccountTest {
 
     //неотрицательный баланс, ставка и лимит.
     // Должен быть отдельный класс для исключения IllegalArgumentException ?
-    // проходит только первый тест на ставку
+    // отрицательная ставка
     @Test
     public void ShouldThrowAnExceptionIfTheRateIsNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -28,6 +30,7 @@ public class CreditAccountTest {
         });
     }
 
+    // отрицательный начальный баланс
     @Test
     public void ShouldThrowAnExceptionIfTheInitialBalanceIsNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -35,6 +38,7 @@ public class CreditAccountTest {
         });
     }
 
+    // отрицательный кредитный лимит
     @Test
     public void ShouldThrowAnExceptionIfTheCreditLimitIsNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -42,8 +46,31 @@ public class CreditAccountTest {
         });
     }
 
-    //-------Test PAY-------
+    // нулевой баланс
+    @Test
+    public void doesNotThrowAnExceptionIfInitialBalanceIsZero() {
+        assertDoesNotThrow(() -> {
+            CreditAccount account = new CreditAccount(0, 5_000, 10);
+        });
+    }
 
+    // нулевой кредитный лимит
+    @Test
+    public void doesNotThrowAnExceptionIfCreditLimitIsZero() {
+        assertDoesNotThrow(() -> {
+            CreditAccount account = new CreditAccount(40, 0, 10);
+        });
+    }
+
+    // нулевая ставка
+    @Test
+    public void doesNotThrowAnExceptionIfRateIsZero() {
+        assertDoesNotThrow(() -> {
+            CreditAccount account = new CreditAccount(30, 500, 0);
+        });
+    }
+
+    //-------Test PAY-------
     //после списания остаётся положительный баланс
     @Test
     public void successfulPaymentShouldBeCompletedAndBalanceRemainsPositive() {
