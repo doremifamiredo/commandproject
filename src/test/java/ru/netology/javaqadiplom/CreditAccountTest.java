@@ -239,10 +239,10 @@ public class CreditAccountTest {
         Assertions.assertEquals(0, account.yearChange());
     }
 
-    // на счёте положительное число
+    // на счёте положительный баланс
     // всё равно высчитывает процент !!! хотя не должен
     @Test
-    public void percentCalculationWhenBalanceIsPositive() {
+    public void percentCalculationWhenInitialBalanceIsPositive() {
         CreditAccount account = new CreditAccount(4321, 100, 10);
 
         Assertions.assertEquals(0, account.yearChange());
