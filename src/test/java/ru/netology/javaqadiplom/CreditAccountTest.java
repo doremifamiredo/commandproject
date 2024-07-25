@@ -113,7 +113,7 @@ public class CreditAccountTest {
         Assertions.assertEquals(-100, account.getBalance());
     }
 
-    // !!можно!! протратить больше кредитного лимита
+    // !!можно!! потратить больше кредитного лимита
     @Test
     public void balanceDoesNotChangeWhenPayingMoreThanCreditLimit() {
         CreditAccount account = new CreditAccount(80, 500, 13);
