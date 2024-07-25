@@ -229,7 +229,7 @@ public class SavingAccountTest {
         );
 
         int expected = 111;
-        int actual = account.yearChange();
+        int actual = account2.yearChange();
 
         Assertions.assertEquals(expected, actual);
     }
