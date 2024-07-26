@@ -221,9 +221,15 @@ public class SavingAccountTest {
 
     @Test
     public void percentCalculation(){
+        SavingAccount account2 = new SavingAccount(
+                2_222,
+                1_000,
+                10_000,
+                5
+        );
 
-        int expected = 100;
-        int actual = account.yearChange();
+        int expected = 111;
+        int actual = account2.yearChange();
 
         Assertions.assertEquals(expected, actual);
     }
