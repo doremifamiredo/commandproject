@@ -20,9 +20,11 @@ public class CreditAccountTest {
         Assertions.assertEquals(3_000, account.getBalance());
     }
 
+
     //неотрицательный баланс, ставка и лимит.
     // Должен быть отдельный класс для исключения IllegalArgumentException ?
     // отрицательная ставка
+
     @Test
     public void ShouldThrowAnExceptionIfTheRateIsNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -30,7 +32,9 @@ public class CreditAccountTest {
         });
     }
 
+
     // отрицательный начальный баланс
+
     @Test
     public void ShouldThrowAnExceptionIfTheInitialBalanceIsNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -38,13 +42,16 @@ public class CreditAccountTest {
         });
     }
 
+
     // отрицательный кредитный лимит
+
     @Test
     public void ShouldThrowAnExceptionIfTheCreditLimitIsNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             CreditAccount account = new CreditAccount(80, -30, 12);
         });
     }
+
 
     // нулевой баланс
     @Test
@@ -94,6 +101,7 @@ public class CreditAccountTest {
     // !!неправильно!! считает задолжность (в балансе отражается платёж, но со знаком -
     // это будет работать только при нулевом балансе)
     // снимаем меньше кредитного лимита
+
     @Test
     public void paymentDoesNotExceedCreditLimit() {
         CreditAccount account = new CreditAccount(5, 50, 5);
@@ -112,6 +120,7 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-100, account.getBalance());
     }
+
 
     // !!можно!! потратить больше кредитного лимита
     @Test
@@ -155,6 +164,7 @@ public class CreditAccountTest {
 
         Assertions.assertFalse(account.pay(601));
     }
+
 
 
     // если достигаем кредитного лимита, то возвращается false ,
@@ -239,12 +249,16 @@ public class CreditAccountTest {
         Assertions.assertEquals(0, account.yearChange());
     }
 
+
     // на счёте положительный баланс
     // всё равно высчитывает процент !!! хотя не должен
     @Test
     public void percentCalculationWhenInitialBalanceIsPositive() {
+
         CreditAccount account = new CreditAccount(4321, 100, 10);
 
         Assertions.assertEquals(0, account.yearChange());
     }
+
 }
+
