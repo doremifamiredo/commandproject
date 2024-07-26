@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class SavingAccountTest {
 
+
     private SavingAccount account = new SavingAccount(
             2_000,
             1_000,
@@ -255,6 +256,7 @@ public class SavingAccountTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
 
 
 
