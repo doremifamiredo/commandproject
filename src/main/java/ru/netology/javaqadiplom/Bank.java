@@ -13,9 +13,71 @@ public class Bank {
      * @param to     - счёт на который переводим
      * @param amount - сумма перевода
      * @return - true если операция прошла успешно, false иначе
+     * <p>
+     * <p>
+     * public Bank(SavingAccount savingFrom, SavingAccount savingTo, int amount) {
+     * <p>
+     * }
+     * <p>
+     * public Bank(CreditAccount creditFrom, CreditAccount creditTo, int amount) {
+     * <p>
+     * }
+     * <p>
+     * public Bank(SavingAccount savingFrom, CreditAccount creditTo, int amount) {
+     * <p>
+     * }
+     * <p>
+     * public Bank(CreditAccount creditFrom, SavingAccount savingTo, int amount) {
+     * <p>
+     * }
      */
-    public boolean transfer(Account from, Account to, int amount) {
+    public boolean transfer(SavingAccount from, SavingAccount to, int amount) {
         if (amount <= 0) {
+            return false;
+        }
+        if (from.getBalance() - amount < from.minBalance) {
+            return false;
+        }
+        if (to.getBalance() + amount > to.maxBalance) {
+            return false;
+        }
+        from.pay(amount);
+        to.add(amount);
+        return true;
+    }
+
+    public boolean transfer(CreditAccount from, CreditAccount to, int amount) {
+        if (amount <= 0) {
+            return false;
+        }
+        if (from.getBalance() - amount < -from.creditLimit) {
+            return false;
+        }
+        from.pay(amount);
+        to.add(amount);
+        return true;
+    }
+
+    public boolean transfer(CreditAccount from, SavingAccount to, int amount) {
+        if (amount <= 0) {
+            return false;
+        }
+        if (from.getBalance() - amount < -from.creditLimit) {
+            return false;
+        }
+        if (to.getBalance() + amount > to.maxBalance) {
+            return false;
+        }
+        from.pay(amount);
+        to.add(amount);
+        return true;
+    }
+
+    public boolean transfer(SavingAccount from, CreditAccount to, int amount) {
+        if (amount <= 0) {
+            return false;
+        }
+        if (from.getBalance() - amount < from.minBalance) {
             return false;
         }
         from.pay(amount);
